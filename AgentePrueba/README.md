@@ -1,30 +1,29 @@
 # AgentePrueba
 
-Este repositorio contiene una propuesta de **agente útil para demo interna** en una compañía.
+Repositorio de demo para un **agente de mantenimiento de Power BI** centrado en un problema real: cambios en columnas del origen de datos que rompen queries.
 
-## Idea de demo: "Agente de Onboarding y Soporte Interno"
+## Caso de uso real
+En el equipo llegan muchos cambios de PBI (PBIs de trabajo) y fallos en consultas cuando:
+- una columna cambia de nombre,
+- una columna desaparece,
+- cambia el tipo de dato,
+- hay pasos en M que referencian columnas antiguas.
 
-Un agente que ayuda a empleados a:
-- encontrar documentación interna,
-- responder dudas frecuentes de RRHH/IT,
-- guiar pasos de alta de herramientas,
-- generar tickets bien estructurados.
+Este agente se conecta por terminal a los entornos `pbis mlps`, detecta el error y propone/aplica la corrección controlada.
 
-## ¿Por qué funciona bien en una demo?
-
-1. **Dolor real**: todo el mundo tiene dudas repetidas en onboarding.
-2. **Valor inmediato**: reduce tiempo del equipo de soporte.
-3. **Escalable**: después se puede conectar a Slack, Notion, Jira, Confluence, etc.
+## Qué demuestra en una demo
+1. **Diagnóstico automático** de errores de schema en Power Query (M).
+2. **Mapa de renombres** entre esquema esperado y esquema real.
+3. **Parche sugerido** sobre la query (sin tocar lógica de negocio no relacionada).
+4. **Validación posterior** y resumen para el ticket/PBI.
 
 ## Estructura
+- `AGENTS.md`: instrucciones operativas del agente técnico.
+- `PROMPTS.md`: prompts para ejecutar una demo de punta a punta.
 
-- `AGENTS.md`: instrucciones operativas del agente.
-- `PROMPTS.md`: prompts listos para demo.
-
-## Flujo sugerido para la demo
-
-1. Un "usuario nuevo" pregunta: "¿Cómo pido acceso a VPN y correo?"
-2. El agente responde pasos concretos y checklist.
-3. El usuario dice: "No me funciona, crea ticket".
-4. El agente crea resumen técnico del incidente para soporte.
-
+## Flujo de demo recomendado
+1. Se ejecuta una query rota con error de columna no encontrada.
+2. El agente inspecciona esquema actual de origen.
+3. Detecta correspondencias (por similitud + historial de renombres).
+4. Genera parche M y lo muestra en diff.
+5. Revalida y emite reporte final (cambios + riesgos + próximos pasos).
